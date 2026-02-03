@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: __APP_NAME__
+  namespace: __NAMESPACE__
+spec:
+  replicas: __REPLICAS__
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+
+
+  selector:
+    matchLabels:
+      app: __APP_NAME__
+  template:
+    metadata:
+      labels:
+        app: __APP_NAME__
+    spec:
+      containers:
+        - image: __CI_REGISTRY__/fe/__IMAGE_NAME__:__VERSION__
+          name: __APP_NAME__
+          ports:
+            - containerPort: 80
+              name: service-port
+          livenessProbe:
+            tcpSocket:
+              port: service-port
+            periodSeconds: 10
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
+          resources:
+            limits:
+              cpu: '2'
+              ephemeral-storage: 16Gi
+              memory: 4Gi
+            requests:
+              cpu: 250m
+              ephemeral-storage: 2Gi
+              memory: 128Mi
+          volumeMounts:
+            - mountPath: /etc/localtime
+              name: date-config
+      imagePullSecrets:
+        - name: __SECRET__
+      volumes:
+        - hostPath:
+            path: /etc/localtime
+          name: date-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.cloud.tencent.com/direct-access: 'false'
+  name: __APP_NAME__
+  namespace: __NAMESPACE__
+spec:
+  ports:
+    - name: service-port
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: __APP_NAME__
+  sessionAffinity: None
+  type: ClusterIP

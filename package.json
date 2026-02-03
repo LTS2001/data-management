@@ -1,0 +1,53 @@
+{
+  "name": "data-manager",
+  "private": true,
+  "author": "maxingyuan <maxingyuan@ama-auto.com>",
+  "scripts": {
+    "build": "max build",
+    "dev": "max dev",
+    "format": "prettier --cache --write .",
+    "postinstall": "max setup",
+    "openapi2ts": "openapi2ts",
+    "prepare": "husky",
+    "setup": "max setup",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@ant-design/cssinjs": "^2.0.1",
+    "@ant-design/icons": "^5.0.1",
+    "@ant-design/plots": "^2.6.6",
+    "@ant-design/pro-components": "^2.4.4",
+    "@ant-design/x": "^2.0.0",
+    "@ant-design/x-sdk": "^2.0.1",
+    "@umijs/max": "^4.5.3",
+    "ali-oss": "^6.23.0",
+    "antd": "6.0.0",
+    "axios": "^1.13.2",
+    "cos-js-sdk-v5": "^1.10.1",
+    "dayjs": "^1.11.19",
+    "i18next": "^25.6.3",
+    "i18next-browser-languagedetector": "^8.2.0",
+    "i18next-resources-to-backend": "^1.2.1",
+    "js-cookie": "^3.0.5",
+    "lodash": "^4.17.21",
+    "mermaid": "^11.12.2",
+    "react-i18next": "^16.3.5",
+    "react-infinite-scroll-component": "^6.1.1"
+  },
+  "devDependencies": {
+    "@types/ali-oss": "^6.16.11",
+    "@types/js-cookie": "^3.0.6",
+    "@types/lodash": "^4.17.14",
+    "@types/react": "^18.0.33",
+    "@types/react-dom": "^18.0.11",
+    "@umijs/openapi": "^1.14.1",
+    "husky": "^9",
+    "lint-staged": "^13.2.0",
+    "prettier": "^2.8.7",
+    "prettier-plugin-organize-imports": "^3.2.2",
+    "prettier-plugin-packagejson": "^2.4.3",
+    "react-icons": "^5.5.0",
+    "tailwindcss": "^3",
+    "typescript": "^5.0.3"
+  }
+}

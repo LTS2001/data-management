@@ -1,0 +1,16 @@
+.typewriter {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 0.12em solid transparent; /* 可选：占位光标宽度 */
+  animation: typing 1s steps(10, end) forwards;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}

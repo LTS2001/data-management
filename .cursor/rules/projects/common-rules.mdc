@@ -1,0 +1,51 @@
+---
+globs:
+alwaysApply: true
+priority: 100
+---
+
+# 项目背景
+
+本项目是一个 react 管理后台项目，技术栈使用的是@umijs/max@4.5.3, 更多依赖查看@package.json, node 版本建议 v20+
+
+# 项目目录结构
+
+- src/pages 页面组件
+- src/services 服务层，api 接口
+- src/components/basic 基础组件
+- src/components/business 业务组件
+- src/config 配置
+- src/utils 工具函数
+- src/hooks 公共自定义 hooks
+- src/assets 静态资源
+- src/locales 国际化
+- src/routes 路由
+- src/services/api 服务层，api 接口
+- src/services/types 服务层，api 接口类型
+
+# 编码标准
+
+- 使用函数式组件和 `Hooks`
+- 使用 `tailwindcss` 进行样式编写
+- 定义 typeScript 类型优先使用 `interface`
+- 涉及聊天对话的等 ai 类的功能，优先使用 `@ant-design/x` 组件，可参考 `src/components/business/chat-box/index.tsx` `src/examples/conversation-list/index.tsx`
+- 涉及表格展示时，优先采用 `@/components/basic/custom-table` 组件,可参考 `src/examples/conversations/index.tsx`
+- 涉及图表展示时，优先采用 `@ant-design/plots` 组件,可参考 `src/examples/overview/index.tsx`
+- 涉及文案的需补充国际化翻译文件 json，键采用-链接方式 不需要改动基础封装的方法
+- 使用 useRequest 的时候 `import { useRequest } from '@umijs/max'`
+- 生成代码后不需要主动处理 `lint` 相关错误，需要使用相关库依赖优先使用 `@package.json` 中的依赖
+- 如果没有专门要求，不生成 mock 数据,生成的 mock 数据单独创建 `mock.ts`
+- Prettier（`.prettierrc`）强制使用单引号、尾随逗号、Tailwind 类排序以及 100 字符的行宽；在提交前进行格式化。
+- ESLint（`.eslintrc.js`）扩展了 React、TypeScript 和导入规则；在提交前解决`import/no-cycle`、`react-hooks/rules-of-hooks`和未使用变量错误。```。
+- 文件名建议采用`kebab-case`格式，路由键和功能标志也采用`kebab-case`以匹配现有模块。
+- 一个文件代码行数不可超过 500 行，超出需要拆分文件
+
+# 首选的库
+
+- 使用 `antd@6.0.0` https://ant.design/components/overview-cn
+- 使用 `@ant-design/pro-components@2.8.0` https://procomponents.ant.design/components/layout
+- 使用 `tailwindcss@3` https://tailwindcss.com/docs/installation/using-vite
+- 使用 `@umijs/max@4.5.3` https://umijs.org/docs/max/introduce
+- 使用 `@ant-design/plots` https://ant-design-charts.antgroup.com/en/examples
+- 使用 `@ant-design/x` https://ant-design-charts.antgroup.com/options/x/title
+- 图标优先使用 `@ant-design/icons`

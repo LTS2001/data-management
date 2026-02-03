@@ -1,0 +1,8 @@
+module.exports = {
+  content: [
+    './src/app.tsx',
+    './src/pages/**/*.tsx',
+    './src/components/**/*.tsx',
+    './src/layouts/**/*.tsx',
+  ],
+}

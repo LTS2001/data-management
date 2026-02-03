@@ -1,0 +1,112 @@
+# before_script:
+#   - echo "this is .gitlab-ci.yml $CI_PIPELINE_SOURCE $CI_COMMIT_TAG, $CI_COMMIT_BRANCH"
+#   - echo "VARIABLE CI_COMMIT_SHA IS $CI_COMMIT_SHA!"
+#   - echo "VARIABLE CI_COMMIT_TAG IS $CI_COMMIT_TAG!"
+#   - echo "VARIABLE CI_PROJECT_DIR IS $CI_PROJECT_DIR!"
+
+# stages:
+#   - build_base
+#   - build_and_push
+#   - deploy
+
+# workflow:
+#   rules:
+#     - if: '$CI_COMMIT_REF_NAME == "main" || $CI_COMMIT_REF_NAME == "develop"'
+#     - if: '$CI_COMMIT_TAG != null || $CI_JOB_MANUAL == "true"'
+#     - if: '$CI_PIPELINE_SOURCE == "web" || $CI_JOB_MANUAL == "true"'
+
+# variables:
+#   IMAGE_NAME: cartea-ai-labs
+#   APP_NAME: ai-labs
+#   APP_NAME_DEV: ai-labs-dev
+#   NAMESPACE: doc
+#   NAMESPACE_PROD: doc
+#   REPLICAS_PROD: 1
+#   REPLICAS_DEV: 1
+#   UMI_APP_ENV_PROD: production
+#   UMI_APP_ENV_DEV: development
+#   SECRET_PROD: gitlab-registry-fe
+#   SECRET_DEV: gitlab-registry-fe
+
+# build_base_image_prod:
+#   tags:
+#     - C3-Runner-Shell
+#   stage: build_base
+#   rules:
+#     - if: '$CI_COMMIT_REF_NAME == "main"'
+#       changes:
+#         - package.json
+#         - pnpm-lock.yaml
+#         - Dockerfile.deps
+#       when: on_success
+#   script:
+#     - docker build -t ${IMAGE_NAME}-base-main:local -f Dockerfile.deps .
+
+# build_base_image_dev:
+#   tags:
+#     - C3-Runner-Shell
+#   stage: build_base
+#   rules:
+#     - if: '$CI_COMMIT_REF_NAME == "develop"'
+#       changes:
+#         - package.json
+#         - pnpm-lock.yaml
+#         - Dockerfile.deps
+#       when: on_success
+#   script:
+#     - docker build -t ${IMAGE_NAME}-base-dev:local -f Dockerfile.deps .
+
+# build_and_push_prod:
+#   stage: build_and_push
+#   tags:
+#     - C3-Runner-Shell
+#   rules:
+#     - if: '$CI_COMMIT_REF_NAME == "main"'
+#   script:
+#     - sed -i "s/__UMI_APP_ENV__/${UMI_APP_ENV_PROD}/" .env
+#     - docker build -t $CI_REGISTRY/fe/${IMAGE_NAME}:$CI_COMMIT_SHA --build-arg BASE_IMAGE=${IMAGE_NAME}-base-main:local .
+#     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+#     - docker push $CI_REGISTRY/fe/${IMAGE_NAME}:$CI_COMMIT_SHA
+
+# build_and_push_dev:
+#   stage: build_and_push
+#   tags:
+#     - C3-Runner-Shell
+#   rules:
+#     - if: '$CI_COMMIT_REF_NAME == "develop"'
+#   script:
+#     - sed -i "s/__UMI_APP_ENV__/${UMI_APP_ENV_DEV}/" .env
+#     - docker build -t $CI_REGISTRY/fe/${IMAGE_NAME}:$CI_COMMIT_SHA --build-arg BASE_IMAGE=${IMAGE_NAME}-base-dev:local .
+#     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+#     - docker push $CI_REGISTRY/fe/${IMAGE_NAME}:$CI_COMMIT_SHA
+
+# deploy_prod:
+#   stage: deploy
+#   image: bitnami/kubectl:latest
+#   rules:
+#     - if: '$CI_COMMIT_REF_NAME == "main"'
+#   script:
+#     - sed -i "s/__APP_NAME__/${APP_NAME}/" k8s.yml
+#     - sed -i "s/__REPLICAS__/${REPLICAS_PROD}/" k8s.yml
+#     - sed -i "s/__CI_REGISTRY__/${CI_REGISTRY}/" k8s.yml
+#     - sed -i "s/__NAMESPACE__/${NAMESPACE_PROD}/" k8s.yml
+#     - sed -i "s/__IMAGE_NAME__/${IMAGE_NAME}/" k8s.yml
+#     - sed -i "s/__VERSION__/${CI_COMMIT_SHA}/" k8s.yml
+#     - sed -i "s/__SECRET__/${SECRET_PROD}/" k8s.yml
+#     - cat k8s.yml
+#     - kubectl apply -f k8s.yml
+
+# deploy_dev:
+#   stage: deploy
+#   image: bitnami/kubectl:latest
+#   rules:
+#     - if: '$CI_COMMIT_REF_NAME == "develop"'
+#   script:
+#     - sed -i "s/__APP_NAME__/${APP_NAME_DEV}/" k8s.yml
+#     - sed -i "s/__REPLICAS__/${REPLICAS_DEV}/" k8s.yml
+#     - sed -i "s/__CI_REGISTRY__/${CI_REGISTRY}/" k8s.yml
+#     - sed -i "s/__NAMESPACE__/${NAMESPACE}/" k8s.yml
+#     - sed -i "s/__IMAGE_NAME__/${IMAGE_NAME}/" k8s.yml
+#     - sed -i "s/__VERSION__/${CI_COMMIT_SHA}/" k8s.yml
+#     - sed -i "s/__SECRET__/${SECRET_DEV}/" k8s.yml
+#     - kubectl apply -f k8s.yml

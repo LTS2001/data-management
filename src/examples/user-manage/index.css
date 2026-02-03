@@ -1,0 +1,13 @@
+/* 图表内小标题 */
+.text-subtitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+}
+
+/* 图表常规文字 */
+.text-body-strong {
+  font-size: 14px;
+  font-weight: 400;
+  color: #a5aab3; /* gray-500 */
+}

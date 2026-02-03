@@ -1,0 +1,6 @@
+{
+  "service-error": "Service error, please try again later",
+  "Incorrect username or password": "Incorrect username or password",
+  "Email already exists": "Email already exists",
+  "login-expired": "Login expired, please login again"
+}
