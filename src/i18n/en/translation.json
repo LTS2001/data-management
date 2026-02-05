@@ -60,5 +60,7 @@
   "内容增长部门": "Content Growth Department",
   "车交易部门": "Car Trade Department",
   "车服务部门": "Car Service Department",
-  "研发中台": "ML Platform Department"
+  "研发中台": "ML Platform Department",
+  "ai-analysis": "Ai Analysis",
+  "retry": "Retry"
 }

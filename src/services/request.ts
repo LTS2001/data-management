@@ -106,7 +106,9 @@ request.interceptors.request.use((config) => {
       path: '/',
     });
   }
-
+  if (config.url?.startsWith('/cartea-clickhouse-api')) {
+    config.headers['clickhouse-token'] = 'ama-clickhouse-@2026';
+  }
   return config;
 });
 
