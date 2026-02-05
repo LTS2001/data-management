@@ -64,7 +64,7 @@ const UserManage: React.FC = () => {
         dataIndex: 'basicProfile',
         search: false,
         render: (_, record) => (
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 min-w-[200px]">
             <Text>
               {t('country')}: {record.country || '-'}
             </Text>

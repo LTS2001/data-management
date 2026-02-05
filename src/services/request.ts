@@ -37,7 +37,7 @@ export enum BUSINESS_CODE {
 }
 
 /**
- *
+ * @description: 默认处理后端返回的错误信息 要把报错的key写到api-message文件
  * @param error 错误信息
  * @param t 翻译函数映射文件
  * @returns
@@ -50,12 +50,10 @@ export const defaultCatchApiError = (error: unknown) => {
   } else if (
     typeof error === 'object' &&
     error &&
-    'message' in error &&
-    typeof error.message === 'string'
+    'msg' in error &&
+    typeof error.msg === 'string'
   ) {
-    message.error(
-      apiTranslation((error.message as TxKeyPath) || 'service-error'),
-    );
+    message.error(apiTranslation((error.msg as TxKeyPath) || 'service-error'));
   } else {
     message.warning(defaultTranslation('service-error'));
   }

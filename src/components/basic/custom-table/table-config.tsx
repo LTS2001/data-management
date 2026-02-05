@@ -12,6 +12,30 @@ import { SortOrder } from 'antd/lib/table/interface';
 import dayjs from 'dayjs';
 import { ReactNode } from 'react';
 
+export const timeFields = [
+  'update_time',
+  'create_time',
+  'updateTime',
+  'createTime',
+  'publishTime',
+  'firstVisitTime',
+  'registerTime',
+];
+export const datePickerPresets = [
+  {
+    label: t('last-7-days'),
+    value: [dayjs().add(-7, 'd'), dayjs()],
+  },
+  {
+    label: t('last-14-days'),
+    value: [dayjs().add(-14, 'd'), dayjs()],
+  },
+  {
+    label: t('last-30-days'),
+    value: [dayjs().add(-30, 'd'), dayjs()],
+  },
+] as any;
+
 export type SettingOptionType = {
   draggable?: boolean;
   checkable?: boolean;
@@ -82,9 +106,7 @@ export const proTableColumnsConfig = <T extends Record<string, any>>(
         search: !column.valueEnum && !column.valueType ? false : true,
         ...column,
         render: (_: ReactNode, record: T) =>
-          dayjs(record[column.dataIndex as keyof T]).format(
-            'YYYY-MM-DD HH:mm:ss',
-          ),
+          dayjs(record[column.dataIndex as keyof T]).format('YYYY-MM-DD'),
       };
     }
     return {
@@ -129,9 +151,10 @@ export const proTableRequestAdapterParamsAndData = async (
 
   try {
     const resp = await requestFn(formattedParams);
+    console.log(resp);
     return {
       success: resp.code === 0,
-      data: resp.data?.items || resp.data?.list,
+      data: resp.data?.records || resp.data?.items,
       total: resp.data?.total,
     };
   } catch (error: unknown) {
@@ -143,26 +166,3 @@ export const proTableFormConfig = {
   syncToUrl: (values: Record<string, any>) => syncToUrl(values),
   syncToInitialValues: false,
 };
-export const timeFields = [
-  'update_time',
-  'create_time',
-  'updateTime',
-  'createTime',
-  'publishTime',
-  'firstVisitTime',
-  'registerTime',
-];
-export const datePickerPresets = [
-  {
-    label: t('last-7-days'),
-    value: [dayjs().add(-7, 'd'), dayjs()],
-  },
-  {
-    label: t('last-14-days'),
-    value: [dayjs().add(-14, 'd'), dayjs()],
-  },
-  {
-    label: t('last-30-days'),
-    value: [dayjs().add(-30, 'd'), dayjs()],
-  },
-] as any;

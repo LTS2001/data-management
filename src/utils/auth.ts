@@ -1,4 +1,5 @@
 import { DATA_MANAGE_TOKEN_KEY, USER_INFO_KEY } from '@/config';
+import { defaultCatchApiError } from '@/services/request';
 import { IUserInfo } from '@/services/types/user.type';
 import { getUserInfo } from '@/services/user.service';
 import Cookies from 'js-cookie';
@@ -58,6 +59,7 @@ export const checkLogin = async (): Promise<{
     local.remove(DATA_MANAGE_TOKEN_KEY);
     local.remove(USER_INFO_KEY);
     toLogin();
+    defaultCatchApiError(error);
     return {};
   }
 };
