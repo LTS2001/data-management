@@ -2,7 +2,7 @@ import { message } from 'antd';
 import axios, { AxiosError } from 'axios';
 console.log('🚀 axios初始化:', axios.defaults.adapter);
 // import { loginOut } from './user/user.service';
-import { AI_LAB_TOKEN_KEY, APP_API_URL } from '@/config';
+import { APP_API_URL, DATA_MANAGE_TOKEN_KEY } from '@/config';
 import {
   apiTranslation,
   t as defaultTranslation,
@@ -98,12 +98,12 @@ const request = axios.create({
   },
 });
 request.interceptors.request.use((config) => {
-  const token = local.get<string>(AI_LAB_TOKEN_KEY);
+  const token = local.get<string>(DATA_MANAGE_TOKEN_KEY);
 
   if (token) {
-    config.headers[AI_LAB_TOKEN_KEY] = token;
-    config.headers['Authorization'] = token;
-    Cookies.set(AI_LAB_TOKEN_KEY, token, {
+    config.headers[DATA_MANAGE_TOKEN_KEY] = token;
+    // config.headers['Authorization'] = token;
+    Cookies.set(DATA_MANAGE_TOKEN_KEY, token, {
       domain: location.origin,
       path: '/',
     });

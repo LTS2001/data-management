@@ -6,7 +6,7 @@ export const SYSTEM_LOGO = 'https://img.icons8.com/?id=dS6PrGTXw1xj&format=png';
 // export const DEFAULT_AVATAR =
 //   'https://www.icartea.com/images/default-avatar.png';
 
-export const AI_LAB_TOKEN_KEY = 'ai_labs_token';
+export const DATA_MANAGE_TOKEN_KEY = 'cartea-admin-token';
 
 export const USER_INFO_KEY = 'user_info';
 

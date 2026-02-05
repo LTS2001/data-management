@@ -8,10 +8,10 @@ import {
 } from './types/user.type';
 
 export function login(params: ILoginParams): Promise<ApiResult<ILoginRes>> {
-  return request.post(`/labs-api/v1/user/login`, params, {
+  return request.post(`/cartea-api/admin/pro/login`, params, {
     headers: {
-      'content-type': 'application/x-www-form-urlencoded',
       Accept: 'application/json',
+      // 'content-type': 'application/x-www-form-urlencoded',
       // 'sec-fetch-mode': 'cors',
     },
   });
@@ -24,11 +24,17 @@ export function register(
 }
 
 export function getUserInfo(): Promise<ApiResult<IUserInfo>> {
-  return request.get(`/labs-api/v1/user/me`);
+  return request.get(`/cartea-api/admin/pro/admin/info`, {
+    headers: {
+      Accept: 'application/json',
+      'content-type': 'application/x-www-form-urlencoded',
+      // 'sec-fetch-mode': 'cors',
+    },
+  });
 }
 
-export function updateUserInfo(
-  params: Pick<IUserInfo, 'name' | 'avatar_url'>,
-): Promise<ApiResult<IUserInfo>> {
-  return request.post(`/labs-api/v1/user/me`, params);
-}
+// export function updateUserInfo(
+//   params: Partial<IUserInfo>,
+// ): Promise<ApiResult<IUserInfo>> {
+//   return request.post(`/labs-api/v1/user/me`, params);
+// }

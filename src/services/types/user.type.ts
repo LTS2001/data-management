@@ -1,14 +1,13 @@
+import { EUserRole } from '@/config/enum';
+
 export interface ILoginParams {
-  email: string;
+  account: string;
   password: string;
-  grant_type?: string;
-  scope?: string;
-  client_id?: string;
 }
 
 export interface ILoginRes {
-  access_token: string;
-  token_type: string;
+  data: string;
+  // token_type: string;
 }
 
 export interface IRegisterParams {
@@ -21,10 +20,41 @@ export interface IRegisterParams {
 export type IRegisterRes = ILoginRes;
 
 export interface IUserInfo {
-  email: string;
-  name: string;
-  avatar_url: string;
-  id: number;
-  create_time: string;
-  update_time: string;
+  accessControl: {
+    /** 是否显示【管理后台】Tab */
+    allowAdminPortal: boolean;
+
+    /** 是否显示【运营后台】Tab */
+    allowOpsPortal: boolean;
+
+    /** 是否显示【后台权限管理】Tab */
+    allowPermPortal: boolean;
+  };
+
+  /* */
+  admin: {
+    /* */
+    account: string;
+
+    /*部门 */
+    department: string;
+
+    /* */
+    id: number;
+
+    /* */
+    password: string;
+
+    /* */
+    proStatus: number;
+
+    /* */
+    roleId: EUserRole;
+
+    /* */
+    status: number;
+
+    /* */
+    username: string;
+  };
 }

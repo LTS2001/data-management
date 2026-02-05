@@ -1,4 +1,4 @@
-import { AI_LAB_TOKEN_KEY, SYSTEM_NAME } from '@/config';
+import { DATA_MANAGE_TOKEN_KEY, SYSTEM_NAME } from '@/config';
 import { defaultCatchApiError } from '@/services/request';
 import { ILoginParams } from '@/services/types/user.type';
 import { login, register } from '@/services/user.service';
@@ -172,18 +172,19 @@ export default function Login() {
 
   const [form] = Form.useForm();
   const handleSubmit = async (values: ILoginParams) => {
+    console.log('🚀 ~ index.tsx:175 ~ values:', values);
     // return;
     if (activeKey === EActiveKey.login) {
       try {
         setLoading(true);
-        const loginRes = await login({ ...values, email: values.email });
-        const token: string = `${loginRes.data.token_type} ${loginRes.data.access_token}`;
-        Cookies.set(AI_LAB_TOKEN_KEY, token, {
+        const loginRes = await login({ ...values, account: values.account });
+        const token: string = `${loginRes.data}`;
+        Cookies.set(DATA_MANAGE_TOKEN_KEY, token, {
           domain: location.origin,
           path: '/',
         });
 
-        local.set(AI_LAB_TOKEN_KEY, token);
+        local.set(DATA_MANAGE_TOKEN_KEY, token);
 
         await checkLogin();
         window.location.href = buildLink('/home');
@@ -198,7 +199,7 @@ export default function Login() {
         setLoading(true);
         await register({
           ...values,
-          email: values.email,
+          account: values.account,
         });
 
         message.success(t('register-success'));
@@ -265,7 +266,7 @@ export default function Login() {
             onChange={(value) => setActiveKey(value as EActiveKey)}
             items={[
               { key: EActiveKey.login, label: t('login') },
-              { key: EActiveKey.register, label: t('register') },
+              // { key: EActiveKey.register, label: t('register') },
             ]}
           />
 
@@ -278,7 +279,7 @@ export default function Login() {
             className="w-80 mt-8"
           >
             <Form.Item
-              name="email"
+              name="account"
               rules={[
                 {
                   required: true,

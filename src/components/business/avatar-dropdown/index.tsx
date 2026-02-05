@@ -55,14 +55,14 @@ const AvatarDropdown: React.FC = () => {
         items: menu,
         onClick: onMenuClick,
       }}
-      key={userInfo?.name}
+      key={userInfo?.admin.username}
       trigger={['click', 'hover']}
       className="hover:cursor-pointer"
       // overlayStyle={{ top: 55 }}
     >
       <div>
-        <DefaultAvatar size={35} alt="avatar" name={userInfo?.name} />
-        <span className="m-1">{userInfo?.name}</span>
+        <DefaultAvatar size={35} alt="avatar" name={userInfo?.admin.username} />
+        <span className="m-1">{userInfo?.admin.username}</span>
       </div>
     </Dropdown>
   );

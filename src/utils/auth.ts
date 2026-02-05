@@ -1,4 +1,4 @@
-import { AI_LAB_TOKEN_KEY, USER_INFO_KEY } from '@/config';
+import { DATA_MANAGE_TOKEN_KEY, USER_INFO_KEY } from '@/config';
 import { IUserInfo } from '@/services/types/user.type';
 import { getUserInfo } from '@/services/user.service';
 import Cookies from 'js-cookie';
@@ -9,7 +9,6 @@ export function toLogin() {
   // const { search, pathname } = window.location;
   const urlParams = new URL(window.location.href).searchParams;
   const redirect = urlParams.get('redirect');
-
   if (!window.location.pathname.includes('/login') && !redirect) {
     window.location.replace(buildLink('/login'));
     //   window.location.replace(buildLink(`/login?redirect=${pathname}${search}`));
@@ -18,15 +17,15 @@ export function toLogin() {
 
 export async function toLogOut() {
   // await loginOut();
-  Cookies.remove(AI_LAB_TOKEN_KEY, { domain: location.origin, path: '/' });
-  local.remove(AI_LAB_TOKEN_KEY);
+  Cookies.remove(DATA_MANAGE_TOKEN_KEY, { domain: location.origin, path: '/' });
+  local.remove(DATA_MANAGE_TOKEN_KEY);
   local.remove(USER_INFO_KEY);
 
   window.location.href = buildLink('/login');
 }
 
 export const getToken = () => {
-  return local.get<string>(AI_LAB_TOKEN_KEY);
+  return local.get<string>(DATA_MANAGE_TOKEN_KEY);
 };
 
 export const getLocalUserInfo = () => {
@@ -44,8 +43,10 @@ export const checkLogin = async (): Promise<{
   }
   try {
     let userInfo = localStorage.getItem(USER_INFO_KEY);
+    console.log('🚀 ~ auth.ts:46 ~ userInfo:', userInfo);
     if (!userInfo) {
       const res = await getUserInfo();
+      console.log('🚀 ~ auth.ts:48 ~ res:', res);
       userInfo = JSON.stringify({ ...res.data });
       local.set(USER_INFO_KEY, userInfo);
     }
@@ -54,7 +55,7 @@ export const checkLogin = async (): Promise<{
       userInfo: JSON.parse(userInfo),
     };
   } catch (error) {
-    local.remove(AI_LAB_TOKEN_KEY);
+    local.remove(DATA_MANAGE_TOKEN_KEY);
     local.remove(USER_INFO_KEY);
     toLogin();
     return {};
