@@ -1,5 +1,7 @@
+import { EUserRole } from '@/config/enum';
 import request from './request';
 import {
+  IListDepartmentRes,
   IListOperationsRes,
   ISaveAdminParams,
   ISaveAdminRes,
@@ -16,13 +18,14 @@ import { IListAdminsRes } from './types/user-manage.type';
  * @param {string} size size
  * @returns
  */
-export function listAdmins(
-  name: string,
-  page: number,
-  size: number,
-): Promise<PagedResult<IListAdminsRes>> {
+export function listAdmins(params: {
+  userName: string;
+  page: number;
+  size: number;
+  roleId: EUserRole;
+}): Promise<PagedResult<IListAdminsRes>> {
   return request.get(`/cartea-api/admin/pro/admin/list`, {
-    params: { name, page, size },
+    params,
   });
 }
 
@@ -52,13 +55,13 @@ export function saveAdmin(
  * @param {string} username username
  * @returns
  */
-export function listOperations(
-  page: number,
-  size: number,
-  username: string,
-): Promise<PagedResult<IListOperationsRes>> {
+export function listOperations(params: {
+  page: number;
+  size: number;
+  username: string;
+}): Promise<PagedResult<IListOperationsRes>> {
   return request.get(`/cartea-api/admin/pro/operation/list`, {
-    params: { page, size, username },
+    params,
   });
 }
 
@@ -79,4 +82,12 @@ export function saveOperation(
   params: ISaveOperationParams,
 ): Promise<ISaveOperationRes> {
   return request.post(`/cartea-api/admin/pro/operation/save`, params);
+}
+
+/**
+ * 部门列表
+ * @returns
+ */
+export function listDepartment(): Promise<ApiResult<IListDepartmentRes[]>> {
+  return request.get(`/cartea-api/admin/pro/admin/department`);
 }

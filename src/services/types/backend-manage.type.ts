@@ -1,5 +1,7 @@
 // Response interface
 
+import { EAccountStatus, EUserRole } from '@/config/enum';
+
 export interface ISaveAdminRes {
   data: boolean;
 } // Parameter interface
@@ -18,13 +20,13 @@ export interface ISaveAdminParams {
   password?: string;
 
   /* */
-  proStatus?: number;
+  proStatus?: EAccountStatus;
 
   /* */
   roleCode?: string;
 
   /* */
-  roleName?: string;
+  roleId?: EUserRole;
 
   /* */
   username?: string;
@@ -44,7 +46,7 @@ export interface IListOperationsRes {
   password: string;
 
   /* */
-  proStatus: number;
+  proStatus: EAccountStatus;
 
   /* */
   roleCode: string;
@@ -52,8 +54,10 @@ export interface IListOperationsRes {
   /* */
   roleName: string;
 
+  roleId: EUserRole;
   /* */
   username: string;
+  departmentId: number;
 } // Parameter interface
 
 export interface ISaveOperationParams {
@@ -94,4 +98,13 @@ export interface ISaveOperationRes {
 
   /* */
   msg: string;
+}
+// Response interface
+
+export interface IListDepartmentRes {
+  /* */
+  departmentId: number;
+
+  /* */
+  name: string;
 }

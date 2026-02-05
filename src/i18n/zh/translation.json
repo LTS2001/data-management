@@ -51,5 +51,14 @@
   "reset-conversation": "重置对话",
   "online-testing": "在线测试中",
   "user-manage": "C端用户管理",
-  "backend-manage": "后台端权限管理"
+  "backend-manage": "后台端权限管理",
+  "department-content-growth": "内容增长部门",
+  "department-car-trade": "车交易部门",
+  "department-car-service": "车服务部门",
+  "department-ml-platform": "研发中台",
+  "department-cartea": "Cartea",
+  "内容增长部门": "内容增长部门",
+  "车交易部门": "车交易部门",
+  "车服务部门": "车服务部门",
+  "研发中台": "研发中台"
 }

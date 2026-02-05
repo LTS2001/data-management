@@ -4,7 +4,6 @@ import { ApiResult, PagedResult } from './types/comon';
 import {
   ERevealCUserInfo,
   IExportCUsersInfoParams,
-  IExportCUsersInfoRes,
   IListCUserOptionRes,
   IListCUsersParams,
   IListCUsersRes,
@@ -13,14 +12,17 @@ import {
 
 /**
  * 导出C端用户
+ * @description 触发浏览器下载 Excel 文件，返回 Blob 数据
  * @param {object} params cUserExportReq
  * @param {array} params.userIds
  * @returns
  */
 export function exportCUsersInfo(
   params: IExportCUsersInfoParams,
-): Promise<ApiResult<IExportCUsersInfoRes>> {
-  return request.get(`/cartea-api/admin/pro/cuser/export`, { params });
+): Promise<Blob> {
+  return request.post(`/cartea-api/admin/pro/cuser/export`, params, {
+    responseType: 'blob',
+  });
 }
 
 /**
@@ -37,6 +39,10 @@ export function listCUsers(
 ): Promise<PagedResult<IListCUsersRes>> {
   return request.get(`/cartea-api/admin/pro/cuser/list`, {
     params,
+    headers: {
+      Accept: 'application/json',
+      'content-type': 'application/x-www-form-urlencoded',
+    },
   });
 }
 
@@ -55,8 +61,12 @@ export function listCUserOption(): Promise<ApiResult<IListCUserOptionRes>> {
  */
 export function revealCUserInfo(
   type: ERevealCUserInfo,
+  cUserId: string,
 ): Promise<IRevealCUserInfoRes> {
   return request.get(`/cartea-api/admin/pro/cuser/reveal`, {
-    params: { type },
+    params: {
+      type,
+      cUserId: cUserId,
+    },
   });
 }

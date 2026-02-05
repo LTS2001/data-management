@@ -1,3 +1,5 @@
+import { t } from '@/i18n/utils';
+
 export const SYSTEM_NAME = 'Data Management';
 
 export const SYSTEM_LOGO = 'https://img.icons8.com/?id=dS6PrGTXw1xj&format=png';
@@ -29,4 +31,12 @@ export const colorsList = [
   '#a7f3d0',
   '#a5f3fc',
   '#a5b4fc',
+];
+
+export const DEPARTMENTS = [
+  t('department-content-growth'),
+  t('department-car-trade'),
+  t('department-car-service'),
+  t('department-ml-platform'),
+  t('department-cartea'),
 ];

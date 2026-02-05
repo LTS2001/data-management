@@ -4,8 +4,6 @@ export interface IExportCUsersInfoParams {
   userIds?: string[];
 } // Response interface
 
-export interface IExportCUsersInfoRes {} // Response interface
-
 export interface IListCUserOptionRes {
   channels: string[];
   countries: string[];
@@ -59,7 +57,8 @@ export interface IListAdminsRes {
 export interface IListCUsersRes {
   /*登录后回填 */
   carteaUserId: number;
-
+  /* google给的id 1576401700.1762327584*/
+  cuserId: number;
   /*NEWS 1, NEW_CAR 2, USED_CAR 3, SERVICE 4, TOPIC 5, OTHER 6, CAR_PRICE_INQUIRY 7, CAR_MODEL_COMPARISON 8, CAR_DETAILS 9 */
   channelInterest: EChannelInterest;
 
@@ -98,7 +97,7 @@ export interface IListCUsersRes {
 
   /* */
   registerTime: string;
-
+  username?: string;
   /*Google Ads, WhatsApp... */
   sourceChannel: string;
 

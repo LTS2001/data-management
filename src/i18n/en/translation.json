@@ -51,5 +51,14 @@
   "reset-conversation": "Reset Conversation",
   "online-testing": "Online Testing",
   "user-manage": "User Management",
-  "backend-manage": "Backend Permission Management"
+  "backend-manage": "Backend Permission Management",
+  "department-content-growth": "Content Growth Department",
+  "department-car-trade": "Car Trade Department",
+  "department-car-service": "Car Service Department",
+  "department-ml-platform": "ML Platform Department",
+  "department-cartea": "Cartea Department",
+  "内容增长部门": "Content Growth Department",
+  "车交易部门": "Car Trade Department",
+  "车服务部门": "Car Service Department",
+  "研发中台": "ML Platform Department"
 }

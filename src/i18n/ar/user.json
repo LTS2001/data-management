@@ -29,5 +29,6 @@
   "logout": "تسجيل الخروج",
   "Incorrect username or password": "اسم المستخدم أو كلمة المرور غير صحيح",
   "Email already exists": "البريد الإلكتروني موجود بالفعل",
-  "user-manage": "User Management"
+  "user-manage": "User Management",
+  "username": "اسم المستخدم"
 }

@@ -53,5 +53,6 @@
   "no-data": "暂无数据",
   "user-detail-title": "用户：{{name}}",
   "contact-info": "联系方式",
-  "source-and-behavior": "来源与行为标签"
+  "source-and-behavior": "来源与行为标签",
+  "username": "用户名"
 }

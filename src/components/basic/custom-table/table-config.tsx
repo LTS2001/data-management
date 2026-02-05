@@ -105,8 +105,11 @@ export const proTableColumnsConfig = <T extends Record<string, any>>(
         align: 'center',
         search: !column.valueEnum && !column.valueType ? false : true,
         ...column,
-        render: (_: ReactNode, record: T) =>
-          dayjs(record[column.dataIndex as keyof T]).format('YYYY-MM-DD'),
+        render: (_: ReactNode, record: T) => {
+          return record[column.dataIndex as keyof T]
+            ? dayjs(record[column.dataIndex as keyof T]).format('YYYY-MM-DD')
+            : '-';
+        },
       };
     }
     return {
@@ -165,4 +168,15 @@ export const proTableRequestAdapterParamsAndData = async (
 export const proTableFormConfig = {
   syncToUrl: (values: Record<string, any>) => syncToUrl(values),
   syncToInitialValues: false,
+};
+
+export const transformSearchToString = (value: string | Array<any>) => {
+  if (typeof value === 'string') {
+    return value.trim() ? value : undefined;
+  }
+  if (Array.isArray(value) && value.length) {
+    return value.join(',');
+  } else {
+    return undefined;
+  }
 };

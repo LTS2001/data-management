@@ -41,6 +41,7 @@ const routes: IConfigFromPlugins['routes'] = [
     path: '/backend-manage',
     component: './backend-manage',
     icon: 'SettingOutlined',
+    access: 'canSeeAdminRoute',
   },
   {
     path: '*',

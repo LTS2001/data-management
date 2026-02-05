@@ -1,70 +1,57 @@
 import CustomProTable from '@/components/basic/custom-table';
+import { transformSearchToString } from '@/components/basic/custom-table/table-config';
 import { EChannelInterest } from '@/config/enum';
 import { defaultCatchApiError } from '@/services/request';
 import {
   ERevealCUserInfo,
   type IListCUsersRes,
 } from '@/services/types/user-manage.type';
-import {
-  exportCUsersInfo,
-  listCUsers,
-  revealCUserInfo,
-} from '@/services/user-manage.serivce';
+import { exportCUsersInfo, listCUsers } from '@/services/user-manage.serivce';
+import { downloadBlobAsFile } from '@/utils/download';
 import { maskEmail, maskPhone } from '@/utils/format';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { Button, Space, Tag, Typography, message } from 'antd';
+import dayjs from 'dayjs';
 import React, { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { channelInterestLabelMap } from './constant';
-import { useGetCUserOptions } from './hooks';
+import { useGetCUserOptions, useReveal } from './hooks';
 import CUserDetailModal from './user-detail-modal';
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const UserManage: React.FC = () => {
   const { t } = useTranslation('user');
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [phoneVisibleMap, setPhoneVisibleMap] = useState<
-    Record<number, boolean>
-  >({});
-  const [emailVisibleMap, setEmailVisibleMap] = useState<
-    Record<number, boolean>
-  >({});
+  const { phoneVisibleMap, emailVisibleMap, handleReveal } = useReveal();
   const [detailOpen, setDetailOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<IListCUsersRes | null>(null);
 
   // 获取选项数据（渠道、国家等）
   const { channels, countries, optionLoading } = useGetCUserOptions();
 
-  const handleReveal = async (type: ERevealCUserInfo, userId: number) => {
-    try {
-      await revealCUserInfo(type);
-      if (type === ERevealCUserInfo.PHONE) {
-        setPhoneVisibleMap((prev) => ({ ...prev, [userId]: true }));
-      } else {
-        setEmailVisibleMap((prev) => ({ ...prev, [userId]: true }));
-      }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Reveal user info failed', error);
-    }
-  };
+  // useReveal 已提供 handleReveal(type, userId)
 
-  const columns: ProColumns<IListCUsersRes>[] = useMemo(
+  const columns = useMemo<ProColumns<IListCUsersRes>[]>(
     () => [
       {
         title: t('user-id'),
-        dataIndex: 'userPseudoId',
-        width: 120,
-        render: (_, record) => `#${record.userPseudoId}`,
+        dataIndex: 'id',
+        width: 100,
+        render: (_, record) =>
+          `${record.carteaUserId || record.cuserId || record.userPseudoId}`,
       },
       {
         title: t('basic-profile'),
         dataIndex: 'basicProfile',
         search: false,
+        width: 200,
         render: (_, record) => (
           <div className="flex flex-col gap-1 min-w-[200px]">
+            <Text>
+              {t('username')}: {record.username || '-'}
+            </Text>
             <Text>
               {t('country')}: {record.country || '-'}
             </Text>
@@ -84,18 +71,24 @@ const UserManage: React.FC = () => {
         title: t('phone-number'),
         dataIndex: 'phoneNumber',
         search: false,
+        minWidth: 200,
         render: (_, record) => (
-          <Space size="small">
+          <Space
+            size="small"
+            className="hover:cursor-pointer min-w-[200px] flex justify-center"
+          >
             <span>
-              {phoneVisibleMap[record.id]
+              {phoneVisibleMap[record.cuserId]
                 ? record.phoneNumber || '/'
                 : maskPhone(record.phoneNumber)}
             </span>
-            {record.phoneNumber && !phoneVisibleMap[record.id] && (
+            {record.phoneNumber && !phoneVisibleMap[record.cuserId] && (
               <Button
                 type="link"
                 size="small"
-                onClick={() => handleReveal(ERevealCUserInfo.PHONE, record.id)}
+                onClick={() =>
+                  handleReveal(ERevealCUserInfo.PHONE, record.cuserId)
+                }
               >
                 {t('view-full')}
               </Button>
@@ -107,18 +100,24 @@ const UserManage: React.FC = () => {
         title: t('email-address'),
         dataIndex: 'email',
         search: false,
+        minWidth: 200,
         render: (_, record) => (
-          <Space size="small">
+          <Space
+            size="small"
+            className="hover:cursor-pointer min-w-[200px] flex justify-center"
+          >
             <span>
-              {emailVisibleMap[record.id]
+              {emailVisibleMap[record.cuserId]
                 ? record.email || '/'
                 : maskEmail(record.email)}
             </span>
-            {record.email && !emailVisibleMap[record.id] && (
+            {record.email && !emailVisibleMap[record.cuserId] && (
               <Button
                 type="link"
                 size="small"
-                onClick={() => handleReveal(ERevealCUserInfo.EMAIL, record.id)}
+                onClick={() =>
+                  handleReveal(ERevealCUserInfo.EMAIL, record.cuserId)
+                }
               >
                 {t('view-full')}
               </Button>
@@ -129,6 +128,7 @@ const UserManage: React.FC = () => {
       {
         title: t('source-channel'),
         dataIndex: 'sourceChannel',
+        width: 100,
         render: (_, record) =>
           record.sourceChannel ? (
             <Tag color="blue">{record.sourceChannel}</Tag>
@@ -139,17 +139,20 @@ const UserManage: React.FC = () => {
       {
         title: t('first-visit-time'),
         dataIndex: 'firstVisitTime',
+        width: 100,
         search: false,
       },
       {
         title: t('register-time'),
         dataIndex: 'registerTime',
+        width: 100,
         search: false,
       },
       {
         title: t('first-visit-port'),
         dataIndex: 'firstVisitPort',
         search: false,
+        width: 100,
       },
       {
         title: t('channel-interest'),
@@ -172,6 +175,9 @@ const UserManage: React.FC = () => {
           ) : (
             '-'
           ),
+        search: {
+          transform: (value) => transformSearchToString(value),
+        },
       },
       {
         title: t('filter-source-channel'),
@@ -183,12 +189,18 @@ const UserManage: React.FC = () => {
           options: channels,
           loading: optionLoading,
         },
+        search: {
+          transform: (value) => transformSearchToString(value),
+        },
       },
       {
         title: t('filter-country'),
         dataIndex: 'countries',
         valueType: 'select',
         hideInTable: true,
+        search: {
+          transform: (value) => transformSearchToString(value),
+        },
         fieldProps: {
           mode: 'multiple',
           options: countries,
@@ -199,6 +211,7 @@ const UserManage: React.FC = () => {
         title: t('operation'),
         dataIndex: 'operation',
         valueType: 'option',
+        fixed: 'right',
         width: 120,
         render: (_, record) => (
           <Button
@@ -220,9 +233,15 @@ const UserManage: React.FC = () => {
   const handleExport = async () => {
     if (!selectedRowKeys.length) return;
     try {
-      await exportCUsersInfo({
+      const data = await exportCUsersInfo({
         userIds: selectedRowKeys as string[],
       });
+      downloadBlobAsFile(
+        data,
+        `c-users-${dayjs().format('YYYYMMDDHHmmss')}.xlsx`,
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      );
+      message.success(t('export-success'));
     } catch (error) {
       // eslint-disable-next-line no-console
       defaultCatchApiError(error);
@@ -231,14 +250,6 @@ const UserManage: React.FC = () => {
   };
 
   return (
-    // <Layout className="p-6">
-    //   <Row className="mb-6" justify="space-between" align="middle">
-    //     <Col>
-    //       <Title level={2} className="mb-0">
-    //         {t('user-manage')}
-    //       </Title>
-    //     </Col>
-    //   </Row>
     <>
       <CustomProTable<IListCUsersRes>
         actionRef={actionRef}
@@ -246,6 +257,7 @@ const UserManage: React.FC = () => {
         columns={columns}
         requestFn={listCUsers}
         pagination={{ pageSize: 20 }}
+        scroll={{ x: 1400 }}
         rowSelection={{
           selectedRowKeys,
           onChange: (keys) => setSelectedRowKeys(keys),

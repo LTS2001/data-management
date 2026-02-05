@@ -53,5 +53,6 @@
   "no-data": "No data",
   "user-detail-title": "User: {{name}}",
   "contact-info": "Contact Info",
-  "source-and-behavior": "Source & Behavior"
+  "source-and-behavior": "Source & Behavior",
+  "username": "Username"
 }

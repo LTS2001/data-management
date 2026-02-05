@@ -3,5 +3,6 @@
   "Incorrect username or password": "Incorrect username or password",
   "Email already exists": "Email already exists",
   "login-expired": "Login expired, please login again",
-  "用户未登陆": "User not logged in"
+  "用户未登陆": "User not logged in",
+  "账号/邮箱 已存在": "Account or email already exists"
 }

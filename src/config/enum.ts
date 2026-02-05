@@ -19,3 +19,12 @@ export enum EChannelInterest {
   CarModelComparison = 8,
   CarDetails = 9,
 }
+
+export enum EAccountStatus {
+  /** 启用 */
+  Enable = 1,
+  /** 停用 */
+  Disable = 0,
+  /** 删除 */
+  Delete = -1,
+}
