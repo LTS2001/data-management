@@ -18,8 +18,10 @@ export const COUNTRY_OPTIONS = [
   { label: 'Oman', value: 'oman' },
   { label: 'Kuwait', value: 'kuwait' },
   { label: 'Egypt', value: 'egypt' },
-]; //新增一个颜色集合,用于批量推理状态展示
+];
+//新增一个颜色集合,用于批量推理状态展示
 export const colorsList2 = ['#202b38', '#fdba74', '#d9f99d', '#dc362e'];
+
 export const colorsList = [
   '#fb7185',
   '#fdba74',

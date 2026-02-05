@@ -82,7 +82,7 @@ export interface IListCUsersRes {
   firstVisitPort: string;
 
   /* */
-  firstVisitTime: Record<string, unknown>;
+  firstVisitTime: string;
 
   /* */
   id: number;
@@ -97,7 +97,7 @@ export interface IListCUsersRes {
   region: string;
 
   /* */
-  registerTime: Record<string, unknown>;
+  registerTime: string;
 
   /*Google Ads, WhatsApp... */
   sourceChannel: string;

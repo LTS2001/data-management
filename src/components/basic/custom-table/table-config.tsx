@@ -76,11 +76,7 @@ export const proTableColumnsConfig = <T extends Record<string, any>>(
   columns: ProColumns<T>[],
 ): ProColumns<T>[] => {
   const newColumns = columns.map((column: ProColumns<T>) => {
-    if (
-      (column.dataIndex === 'update_time' ||
-        column.dataIndex === 'create_time') &&
-      !column.render
-    ) {
+    if (timeFields.includes(column.dataIndex as string) && !column.render) {
       return {
         align: 'center',
         search: !column.valueEnum && !column.valueType ? false : true,
@@ -147,7 +143,15 @@ export const proTableFormConfig = {
   syncToUrl: (values: Record<string, any>) => syncToUrl(values),
   syncToInitialValues: false,
 };
-
+export const timeFields = [
+  'update_time',
+  'create_time',
+  'updateTime',
+  'createTime',
+  'publishTime',
+  'firstVisitTime',
+  'registerTime',
+];
 export const datePickerPresets = [
   {
     label: t('last-7-days'),

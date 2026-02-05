@@ -66,3 +66,38 @@ export function removeEmptyValues<T extends Record<string, any>>(
   }
   return newObj;
 }
+
+/**
+ * 手机号脱敏 保留前3位和后4位，中间用*代替
+ * @param phone
+ * @returns
+ */
+export const maskPhone = (phone?: string) => {
+  if (!phone) return '/';
+  const cleaned = phone.replace(/\s/g, '');
+  if (cleaned.length <= 7) return cleaned;
+  const prefix = cleaned.slice(0, 3);
+  const suffix = cleaned.slice(-4);
+  const middle = '*'.repeat(cleaned.length - 7);
+  return `${prefix}${middle}${suffix}`;
+};
+
+/**
+ * 邮箱脱敏 保留前3位和@后的域名，中间用***代替
+ * @param email
+ * @returns
+ */
+export const maskEmail = (email?: string) => {
+  if (!email) return '/';
+  const [local, domain] = email.split('@');
+  if (!domain) return email;
+  const visibleLocal = local.slice(0, 3);
+  return `${visibleLocal}***@${domain}`;
+};
+
+export const formatDateYYMMDD = (value?: unknown) => {
+  if (!value) return '-';
+  return dayjs(value as string).isValid()
+    ? dayjs(value as string).format('YYYY-MM-DD')
+    : '-';
+};
