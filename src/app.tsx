@@ -35,6 +35,7 @@ export const layout: RunTimeLayoutConfig = () => {
     menuDataRender: (menuData) => {
       // 递归处理菜单数据，包括子路由
       const translateMenu = (items: any[]): any[] => {
+        console.log('UMI_APP_ENV', process.env.UMI_APP_ENV);
         return items.map((item) => {
           const translatedItem = {
             ...item,
