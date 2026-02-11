@@ -490,7 +490,7 @@ export default function GrowthAnalysis({ dates }: { dates: IDateParams }) {
     };
   }, [chartsData, activeModuleBreakdownTab]);
   // #endregion
-
+  if (!chartsData) return;
   return (
     <div className="space-y-6">
       <ModuleTitle

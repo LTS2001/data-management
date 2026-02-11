@@ -158,7 +158,7 @@ const ConversionAnalysis: React.FC<{ dates: IDateParams }> = ({ dates }) => {
       key: 'retentionCount',
     },
   ];
-
+  if (!chartsData) return;
   return (
     <div className="space-y-6">
       <ModuleTitle

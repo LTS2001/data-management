@@ -391,7 +391,7 @@ const InteractionAnalysis: React.FC<{ dates: IDateParams }> = ({ dates }) => {
     },
   };
   // #endregion
-
+  if (!chartsData) return;
   return (
     <div className="space-y-6">
       <ModuleTitle

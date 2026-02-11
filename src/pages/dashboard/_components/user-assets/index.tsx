@@ -224,7 +224,7 @@ export default function UserAssets({ dates }: { dates: IDateParams }) {
       render: (value: number) => `+${value?.toLocaleString()}`,
     },
   ];
-
+  if (!chartsData) return;
   return (
     <div className="space-y-6">
       <ModuleTitle

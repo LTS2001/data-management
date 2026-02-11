@@ -112,7 +112,7 @@ const LossAnalysis: React.FC<{ dates: IDateParams }> = ({ dates }) => {
       fill: '#e53730',
     },
   };
-
+  if (!chartsData) return;
   return (
     <div className="space-y-6">
       <ModuleTitle
