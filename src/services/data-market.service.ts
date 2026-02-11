@@ -125,7 +125,7 @@ export const getAiAnalysis = (
   data: any,
 ): Promise<ApiResult<any>> => {
   return request.post(
-    `${dataApiDomain}/cartea-clickhouse-api/cartea-clickhouse-api/data/ai/analysis`,
+    `${dataApiDomain}/cartea-clickhouse-api/data/ai/analysis`,
     {
       type,
       ...data,
