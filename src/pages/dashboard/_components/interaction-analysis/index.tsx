@@ -436,7 +436,7 @@ const InteractionAnalysis: React.FC<{ dates: IDateParams }> = ({ dates }) => {
                 },
                 {
                   title: t('daily-avg'),
-                  dataIndex: 'dailyAvg',
+                  dataIndex: 'number',
                   render: (value: number) =>
                     value ? `${value.toFixed(1)}` : '-',
                 },

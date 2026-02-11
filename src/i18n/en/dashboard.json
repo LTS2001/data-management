@@ -72,7 +72,7 @@
   "site-interaction-trend": "Site Interaction Trend",
   "site-interaction-trend-desc": "Overall interaction is steadily increasing; like rate (1.2%) and lead rate (0.25%) both improved DoD.",
   "metric": "Metric",
-  "daily-avg": "Daily Avg",
+  "daily-avg": "Numerical Value",
   "year-ratio": "YoY",
   "conversion-rate": "Conversion Rate",
   "likes": "Likes",
