@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { isProduction } from './../config/env';
 import request from './request';
 import { ApiResult } from './types/comon';
 import {
@@ -9,6 +10,10 @@ import {
   IGetTransitionAnalysis,
   IGetUserAssets,
 } from './types/data-market';
+
+const dataApiDomain = `${
+  isProduction ? 'https://management-ck.icartea.com' : ''
+}`;
 
 /**
  * 默认7天数据
@@ -28,12 +33,18 @@ export const getUserAssets = ({
   endDate,
   ...params
 }: IDateParams = {}): Promise<ApiResult<IGetUserAssets>> => {
-  return request.get(`/cartea-clickhouse-api/data/user/assets`, {
-    params: {
-      ...getDefaultDate(startDate, endDate),
-      ...params,
+  return request.get(
+    `${dataApiDomain}/cartea-clickhouse-api/data/user/assets`,
+    {
+      params: {
+        ...getDefaultDate(startDate, endDate),
+        ...params,
+      },
+      headers: {
+        'clickhouse-token': 'ama-clickhouse-@2026',
+      },
     },
-  });
+  );
 };
 
 export const getGrowthAnalysis = ({
@@ -41,12 +52,18 @@ export const getGrowthAnalysis = ({
   endDate,
   ...params
 }: IDateParams = {}): Promise<ApiResult<IGetGrowthAnalysis>> => {
-  return request.get(`/cartea-clickhouse-api/data/growth/analysis`, {
-    params: {
-      ...getDefaultDate(startDate, endDate),
-      ...params,
+  return request.get(
+    `${dataApiDomain}/cartea-clickhouse-api/data/growth/analysis`,
+    {
+      params: {
+        ...getDefaultDate(startDate, endDate),
+        ...params,
+      },
+      headers: {
+        'clickhouse-token': 'ama-clickhouse-@2026',
+      },
     },
-  });
+  );
 };
 
 export const getLossAnalysis = ({
@@ -54,12 +71,18 @@ export const getLossAnalysis = ({
   endDate,
   ...params
 }: IDateParams = {}): Promise<ApiResult<IGetLossAnalysis>> => {
-  return request.get(`/cartea-clickhouse-api/data/loss/analysis`, {
-    params: {
-      ...getDefaultDate(startDate, endDate),
-      ...params,
+  return request.get(
+    `${dataApiDomain}/cartea-clickhouse-api/data/loss/analysis`,
+    {
+      params: {
+        ...getDefaultDate(startDate, endDate),
+        ...params,
+      },
+      headers: {
+        'clickhouse-token': 'ama-clickhouse-@2026',
+      },
     },
-  });
+  );
 };
 
 export const getInteractionAnalysis = ({
@@ -67,12 +90,18 @@ export const getInteractionAnalysis = ({
   endDate,
   ...params
 }: IDateParams = {}): Promise<ApiResult<IGetInteractionAnalysis>> => {
-  return request.get(`/cartea-clickhouse-api/data/interaction/analysis`, {
-    params: {
-      ...getDefaultDate(startDate, endDate),
-      ...params,
+  return request.get(
+    `${dataApiDomain}/cartea-clickhouse-api/data/interaction/analysis`,
+    {
+      params: {
+        ...getDefaultDate(startDate, endDate),
+        ...params,
+      },
+      headers: {
+        'clickhouse-token': 'ama-clickhouse-@2026',
+      },
     },
-  });
+  );
 };
 
 // export const getConversionAnalysis = ({
@@ -85,6 +114,9 @@ export const getInteractionAnalysis = ({
 //       ...getDefaultDate(startDate, endDate),
 //       ...params,
 //     },
+//     headers: {
+//       'clickhouse-token': 'ama-clickhouse-@2026',
+//     },
 //   });
 // };
 
@@ -92,10 +124,18 @@ export const getAiAnalysis = (
   type: string,
   data: any,
 ): Promise<ApiResult<any>> => {
-  return request.post(`/cartea-clickhouse-api/data/ai/analysis`, {
-    type,
-    ...data,
-  });
+  return request.post(
+    `${dataApiDomain}/cartea-clickhouse-api/cartea-clickhouse-api/data/ai/analysis`,
+    {
+      type,
+      ...data,
+    },
+    {
+      headers: {
+        'clickhouse-token': 'ama-clickhouse-@2026',
+      },
+    },
+  );
 };
 
 export const getTransitionAnalysis = ({
@@ -103,10 +143,16 @@ export const getTransitionAnalysis = ({
   endDate,
   ...params
 }: IDateParams = {}): Promise<ApiResult<IGetTransitionAnalysis>> => {
-  return request.get(`/cartea-clickhouse-api/data/transition/analysis`, {
-    params: {
-      ...getDefaultDate(startDate, endDate),
-      ...params,
+  return request.get(
+    `${dataApiDomain}/cartea-clickhouse-api/data/transition/analysis`,
+    {
+      params: {
+        ...getDefaultDate(startDate, endDate),
+        ...params,
+      },
+      headers: {
+        'clickhouse-token': 'ama-clickhouse-@2026',
+      },
     },
-  });
+  );
 };
