@@ -599,7 +599,7 @@ export default function GrowthAnalysis({ dates }: { dates: IDateParams }) {
       >
         <AiAnalysisReference
           status={cardStatus[4]}
-          markdown={aiData?.channelTraffics?.en || ''}
+          markdown={aiData?.moduleBreakdowns?.en || ''}
         />
         <ChartLoading loading={loading}>
           <Pie {...moduleBreakdownChartConfig} onReady={chartResizeOnReady} />
